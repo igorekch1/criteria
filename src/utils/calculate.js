@@ -51,11 +51,41 @@ const calculateByValda = matrix => {
   return {
     description: `Выбираем из (${minValues.join(
       "; "
-    )}) максимальный элемент max = ${maxValue}`,
+    )}) максимальный элемент max = ${maxValue}.`,
     total: `Вывод: выбираем стратегию N=${bestStrategyIndex + 1}.`
   };
 };
-const calculateByOptimism = matrix => {};
-const calculateByPessimism = matrix => {};
+const calculateByOptimism = matrix => {
+  const maxValues = matrix.map(row => Math.max(...row));
+  const maxValue = Math.max(...maxValues);
+  const bestStrategyIndex = matrix.findIndex(row => {
+    return row.find(value => {
+      return value === maxValue;
+    });
+  });
+
+  return {
+    description: `Выбираем из (${maxValues.join(
+      "; "
+    )}) максимальный элемент max = ${maxValue}.`,
+    total: `Вывод: выбираем стратегию N=${bestStrategyIndex + 1}.`
+  };
+};
+const calculateByPessimism = matrix => {
+  const minValues = matrix.map(row => Math.min(...row));
+  const minValue = Math.min(...minValues);
+  const bestStrategyIndex = matrix.findIndex(row => {
+    return row.find(value => {
+      return value === minValue;
+    });
+  });
+
+  return {
+    description: `Выбираем из (${minValues.join(
+      "; "
+    )}) минимальный элемент min = ${minValues}.`,
+    total: `Вывод: выбираем стратегию N=${bestStrategyIndex + 1}.`
+  };
+};
 const calculateBySavage = matrix => {};
 const calculateByGurvitz = matrix => {};
