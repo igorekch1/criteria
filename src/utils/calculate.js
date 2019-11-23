@@ -1,27 +1,61 @@
-export default function (criteria) {
+import _ from "lodash";
+
+export default function(criteria, items) {
   let result;
+  const matrix = createMatrix(items);
 
   switch (criteria) {
     case "valda":
-      result = calculateByValda();
-      return "test";
+      result = calculateByValda(matrix);
+      return result;
     case "optimism":
-      result = calculateByOptimism();
+      result = calculateByOptimism(matrix);
       return result;
     case "pessimism":
-      result = calculateByPessimism();
+      result = calculateByPessimism(matrix);
       return result;
     case "savage":
-      result = calculateBySavage();
+      result = calculateBySavage(matrix);
       return result;
     case "gurvitz":
-      result = calculateByGurvitz();
+      result = calculateByGurvitz(matrix);
       return result;
   }
 }
 
-const calculateByValda = () => {};
-const calculateByOptimism = () => {};
-const calculateByPessimism = () => {};
-const calculateBySavage = () => {};
-const calculateByGurvitz = () => {};
+const createMatrix = items => {
+  let matrix = [];
+
+  for (let item in items) {
+    const groupBy = parseInt(item.split("-").slice(1, 2));
+    const element = parseInt(items[item]);
+
+    if (matrix[groupBy]) {
+      matrix[groupBy].push(element);
+    } else {
+      matrix[groupBy] = [element];
+    }
+  }
+
+  return matrix;
+};
+const calculateByValda = matrix => {
+  const minValues = matrix.map(row => Math.min(...row));
+  const maxValue = Math.max(...minValues);
+  const bestStrategyIndex = matrix.findIndex(row => {
+    return row.find(value => {
+      return value === maxValue;
+    });
+  });
+
+  return {
+    description: `Выбираем из (${minValues.join(
+      "; "
+    )}) максимальный элемент max = ${maxValue}`,
+    total: `Вывод: выбираем стратегию N=${bestStrategyIndex + 1}.`
+  };
+};
+const calculateByOptimism = matrix => {};
+const calculateByPessimism = matrix => {};
+const calculateBySavage = matrix => {};
+const calculateByGurvitz = matrix => {};

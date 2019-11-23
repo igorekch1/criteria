@@ -22,17 +22,24 @@
           </a-select>
         </a-form-item>
       </a-row>
-      <a-row type="flex" justify="center" style="margin-top: 20px">
-        <a-col v-for="(row, i) in matrix" :key="i" :span="4">
+      <a-row
+        type="flex"
+        justify="center"
+        align="middle"
+        style="margin-top: 20px"
+        v-for="(row, i) in matrix"
+        :key="i"
+      >
+        <span class="strategy-number">{{ i + 1 }})</span>
+        <a-col :span="4" v-for="(col, j) in row" :key="col">
           <a-form-item>
             <a-input
-              v-for="(col, j) in row"
-              :key="col"
+              style="width: 270px"
               v-decorator="[
                 `row-${i}-col-${j}`,
                 {
                   rules: [
-                    { required: true, message: 'Please input your note!' }
+                    { required: true, message: 'Please enter the value!' }
                   ]
                 }
               ]"
@@ -51,7 +58,10 @@
           </a-button>
         </a-form-item>
       </a-row>
-      <div v-if="result">{{ result }}</div>
+      <a-row v-if="result" class="result">
+        <div>{{ result.description }}</div>
+        <div>{{ result.total }}</div>
+      </a-row>
     </a-form>
   </div>
 </template>
@@ -79,14 +89,14 @@ export default {
 
       this.form.validateFields((err, values) => {
         if (!err) {
-          const { criteria } = values;
-          const result = calculate(criteria);
+          const { criteria, ...items } = values;
+          const result = calculate(criteria, items);
 
           this.result = result;
         }
       });
     },
-    createMatrix() {
+    createInputMatrix() {
       for (var i = 0; i < this.rows; i++) {
         this.matrix[i] = [];
         for (var j = 0; j < this.cols; j++) {
@@ -96,9 +106,19 @@ export default {
     }
   },
   created() {
-    this.createMatrix();
+    this.createInputMatrix();
   }
 };
 </script>
 
-<style></style>
+<style scoped>
+.strategy-number {
+  font-size: 16px;
+  margin-right: 6px;
+}
+.result {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+</style>
