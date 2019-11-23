@@ -1,11 +1,18 @@
 <template>
   <div id="app">
-    <app-matrix-form :onMatrixFormSubmit="onMatrixFormSubmit"></app-matrix-form>
-    <app-criteria-form
-      v-if="showCriteria"
-      :row="row"
-      :col="col"
-    ></app-criteria-form>
+    <a-row>
+      <a-col :span="24">
+        <app-matrix-form
+          :onMatrixFormSubmit="onMatrixFormSubmit"
+          :resetForm="() => (this.showCriteria = false)"
+        ></app-matrix-form>
+      </a-col>
+    </a-row>
+    <a-row v-if="showCriteria" style="margin-top: 20px">
+      <a-col :span="24">
+        <app-criteria-form :rows="row" :cols="col"></app-criteria-form>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
