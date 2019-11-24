@@ -59,6 +59,22 @@
         </a-form-item>
       </a-row>
       <a-row v-if="result" class="result">
+        <div v-if="result.resultMatrix" class="matrix-wrapper">
+          <table class="matrix">
+            <tbody class="matrix-body">
+              <tr
+                v-for="(row, i) in result.resultMatrix"
+                :key="i"
+                class="matrix-row"
+              >
+                <td style="text-align: center">{{ i + 1 }})</td>
+                <td v-for="(col, j) in row" :key="i + j" class="matrix-col">
+                  {{ col }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div>{{ result.description }}</div>
         <div>{{ result.total }}</div>
       </a-row>
@@ -120,5 +136,26 @@ export default {
   margin-top: 20px;
   text-align: center;
   font-size: 18px;
+}
+
+.matrix-wrapper {
+  width: 80%;
+  margin: 0 auto 20px;
+}
+
+.matrix,
+.matrix-row,
+.matrix-col {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.matrix {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.matrix-col {
+  padding: 15px;
 }
 </style>
