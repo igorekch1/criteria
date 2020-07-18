@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.4.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.5.11"
   },
   "browserslist": [
